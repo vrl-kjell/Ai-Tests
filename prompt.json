@@ -1,0 +1,164 @@
+{
+  "version": "1.2",
+  "project": {
+    "name": "VRL External Website Theme",
+    "platform": "RockRMS",
+    "purpose": "Create a modern, accessible theme for the public site.",
+    "overall_feel": {
+      "tone": ["friendly", "informational", "engaging", "welcoming"],
+      "primary_audience": "Unfamiliar guests",
+      "secondary_audience": "Regular/committed attendees",
+      "experience_goals": [
+        "Warm first impression",
+        "Clear paths for next actions",
+        "Low cognitive load and fast wayfinding"
+      ]
+    }
+  },
+  "navigation": {
+    "primary": ["Home", "I'm New", "Next Steps", "Watch", "Give"],
+    "pattern": "mega-menu",
+    "requirements": [
+      "Expose key subnav links in a single hover/focus panel on desktop",
+      "Touch-friendly disclosure panels on mobile (accordion style)",
+      "Full keyboard support (TAB, SHIFT+TAB, ESC; arrow keys within panels)",
+      "ARIA roles/attributes for menu, menuitem, expanded state"
+    ],
+    "content_model_notes": "Subnav driven by Rock pages/attributes; allow featured links and short descriptions per section."
+  },
+  "design_preferences": {
+    "css": {
+      "preferred_syntax": "CSS nesting",
+      "avoid": ["LESS"],
+      "notes": "Semantic, maintainable CSS; minimize Bootstrap-specific class reliance.",
+      "js_alternative_preference": "Prefer CSS-only solutions for interactivity where feasible; use JS only when necessary."
+    },
+    "color_palette": {
+      "primary": { "hsl": "hsl(88, 54%, 52%)", "hex": "#97CA41" },
+      "secondary": [
+        { "name": "dark_gray", "rgb": "rgb(51, 51, 51)" },
+        { "name": "black", "rgb": "rgb(0, 0, 0)" },
+        { "name": "light_pale_blue", "note": "Pairs well with the bright green" }
+      ],
+      "format_preference": "HSL or RGB",
+      "transparency_support": true
+    },
+    "accessibility": {
+      "importance": "high",
+      "requirements": [
+        "WCAG AA contrast",
+        "Keyboard operability across nav and components",
+        "Screen reader labels, landmarks, focus states"
+      ]
+    },
+    "aesthetic_direction": {
+      "modern": true,
+      "trend_resistance": true,
+      "inspiration": ["Subtle gradients", "Very slight skeuomorphism", "Minimal 'liquid glass' accents"],
+      "avoid": ["Fully flat Material Fabric", "Full liquid-glass look"]
+    }
+  },
+  "typography": {
+    "primary_font": {
+      "family": "Montserrat",
+      "roles": ["headings", "body"],
+      "weights": [400, 500, 600, 700],
+      "usage_notes": "Use consistent letter-spacing and generous line-height; apply responsive type scale."
+    },
+    "secondary_font": {
+      "family": "Space Grotesk",
+      "roles": [],
+      "usage_notes": "Avoid unless explicitly approved for small accent text; not for headings or body copy."
+    },
+    "rationale": "Montserrat matches the desired tone (friendly, mature, professional); Space Grotesk can read as immature."
+  },
+  "personalization": {
+    "logged_in_experience": {
+      "home_page_behavior": "Replace public homepage content with contextual, user-specific dashboard when authenticated.",
+      "features": [
+        "Upcoming events the user is registered for",
+        "Relevant ministries/groups based on involvement",
+        "Quick access to giving history and Next Steps",
+        "Personalized greeting using first name"
+      ],
+      "public_to_private_transition": "Seamless; maintain branding while shifting CTAs to engagement actions.",
+      "privacy_considerations": [
+        "Never expose personal info in public URLs",
+        "Use secure Rock attributes/queries for personalization data"
+      ]
+    }
+  },
+  "framework_preferences": {
+    "bootstrap": {
+      "required_by_platform": true,
+      "approach": "Use grid/utilities sparingly; keep HTML clean and semantic"
+    },
+    "ui_frameworks": {
+      "acceptable": ["Open Props"],
+      "notes": "Use only when it saves meaningful time; prefer custom CSS for simple pieces"
+    }
+  },
+  "responsive_strategy": {
+    "design_process": "Design desktop-first; develop mobile-first CSS",
+    "breakpoints": ["<=480", "<=768", "<=1024", ">1024"],
+    "mobile_requirements": [
+      "Thumb-friendly hit targets (>=44px)",
+      "Sticky/top nav with overflow-safe mega menu → collapsible accordions",
+      "Performance budget: <2.0s LCP on 4G; defer non-critical JS"
+    ]
+  },
+  "pwa": {
+    "consider": true,
+    "goals": [
+      "Installable experience (Add to Home Screen)",
+      "No notifications",
+      "Minimal/no offline caching beyond shell/icons unless explicitly enabled"
+    ],
+    "deliverables": [
+      { "name": "manifest.webmanifest" },
+      { "name": "service-worker.js", "note": "Optional; if used, cache shell/icons only" }
+    ]
+  },
+  "development_guidelines": {
+    "html": { "style": "semantic", "goal": "Easy refactorability" },
+    "css": { "organization": "By component", "extensibility": true }
+  },
+  "tasks": [
+    {
+      "id": "scaffold-structure",
+      "action": "create_structure",
+      "params": { "root": "theme", "subfolders": ["assets/css","assets/js","assets/img","includes","partials"] }
+    },
+    {
+      "id": "nav-mega",
+      "after": "scaffold-structure",
+      "action": "build_navigation",
+      "params": {
+        "type": "mega-menu",
+        "primary": ["Home", "I'm New", "Next Steps", "Watch", "Give"],
+        "accessibility": true,
+        "mobile_behavior": "accordion"
+      },
+      "notes": "Favor CSS for open/close where feasible; add minimal JS for focus trapping/ESC."
+    },
+    {
+      "id": "responsive-foundation",
+      "after": "nav-mega",
+      "action": "implement_responsive_css",
+      "params": { "mobile_first": true, "breakpoints": ["480","768","1024"] }
+    },
+    {
+      "id": "pwa-lite",
+      "after": "responsive-foundation",
+      "action": "add_pwa_shell",
+      "params": { "manifest": true, "service_worker": "icons+shell only", "notifications": false }
+    }
+  ],
+  "acceptance_criteria": [
+    "Primary nav matches specified order and operates as mega menu on desktop; accordion on mobile",
+    "Fully keyboard-navigable menus with proper ARIA; ESC closes panels",
+    "Lighthouse Mobile: Performance ≥ 85, Accessibility ≥ 95",
+    "Logged-in users see contextual home dashboard with specified features",
+    "Optional PWA installs and opens without errors; no notifications"
+  ]
+}
