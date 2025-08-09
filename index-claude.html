@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Valley Ridge Life - A welcoming church community">
+    <meta name="theme-color" content="#97CA41">
+    <title>Valley Ridge Life - Welcome Home</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.webmanifest">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset & Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Color System */
+            --primary: hsl(88, 54%, 52%);
+            --primary-dark: hsl(88, 54%, 42%);
+            --primary-light: hsl(88, 54%, 62%);
+            --primary-pale: hsl(88, 30%, 85%);
+            --dark-gray: rgb(51, 51, 51);
+            --black: rgb(0, 0, 0);
+            --white: rgb(255, 255, 255);
+            --pale-blue: hsl(200, 60%, 95%);
+            --accent-blue: hsl(200, 60%, 50%);
+            
+            /* Typography */
+            --font-primary: 'Montserrat', sans-serif;
+            --font-weight-regular: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+            
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            
+            /* Breakpoints as CSS variables for JS */
+            --bp-mobile: 480px;
+            --bp-tablet: 768px;
+            --bp-desktop: 1024px;
+            
+            /* Effects */
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --transition-fast: 150ms ease;
+            --transition-base: 250ms ease;
+            --transition-slow: 350ms ease;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-regular);
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background: var(--white);
+            min-height: 100vh;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+            
+            @media (min-width: 768px) {
+                padding: 0 var(--space-lg);
+            }
+        }
+
+        /* Typography Scale */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: var(--font-weight-semibold);
+            line-height: 1.2;
+            margin-bottom: var(--space-md);
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: var(--font-weight-bold);
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+        }
+
+        h3 {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+        }
+
+        p {
+            margin-bottom: var(--space-md);
+        }
+
+        /* Button Component */
+        .btn {
+            display: inline-block;
+            padding: var(--space-sm) var(--space-lg);
+            font-weight: var(--font-weight-medium);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            
+            &.btn-primary {
+                background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+                color: var(--white);
+                box-shadow: var(--shadow-sm);
+                
+                &:hover, &:focus {
+                    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+                    box-shadow: var(--shadow-md);
+                    transform: translateY(-1px);
+                }
+            }
+            
+            &.btn-secondary {
+                background: var(--white);
+                color: var(--primary);
+                border: 2px solid var(--primary);
+                
+                &:hover, &:focus {
+                    background: var(--primary-pale);
+                }
+            }
+        }
+
+        /* Skip to Content (Accessibility) */
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: var(--white);
+            padding: var(--space-sm) var(--space-md);
+            text-decoration: none;
+            z-index: 100;
+            
+            &:focus {
+                top: 0;
+            }
+        }
+
+        /* Header & Navigation */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md) 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: var(--font-weight-bold);
+            font-size: 1.5rem;
+            
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+                margin-right: var(--space-sm);
+                background: var(--primary);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--white);
+                font-weight: var(--font-weight-bold);
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-sm);
+            
+            @media (max-width: 767px) {
+                display: block;
+            }
+            
+            span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background: var(--dark-gray);
+                margin: 5px 0;
+                transition: var(--transition-fast);
+            }
+            
+            &[aria-expanded="true"] {
+                span:nth-child(1) {
+                    transform: rotate(45deg) translate(5px, 5px);
+                }
+                span:nth-child(2) {
+                    opacity: 0;
+                }
+                span:nth-child(3) {
+                    transform: rotate(-45deg) translate(7px, -6px);
+                }
+            }
+        }
+
+        /* Navigation - Mega Menu */
+        nav {
+            @media (max-width: 767px) {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                box-shadow: var(--shadow-lg);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height var(--transition-slow);
+                
+                &.active {
+                    max-height: 80vh;
+                    overflow-y: auto;
+                }
+            }
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: var(--space-lg);
+            
+            @media (max-width: 767px) {
+                flex-direction: column;
+                gap: 0;
+                padding: var(--space-md);
+            }
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-sm) var(--space-md);
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-weight: var(--font-weight-medium);
+            transition: color var(--transition-fast);
+            
+            &:hover, &:focus {
+                color: var(--primary);
+            }
+            
+            @media (max-width: 767px) {
+                padding: var(--space-md);
+                border-bottom: 1px solid rgba(0,0,0,0.1);
+            }
+        }
+
+        .nav-arrow {
+            transition: transform var(--transition-fast);
+            
+            .nav-item.active & {
+                transform: rotate(180deg);
+            }
+        }
+
+        /* Mega Menu Panel */
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 300px;
+            background: var(--white);
+            box-shadow: var(--shadow-lg);
+            border-radius: 4px;
+            padding: var(--space-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all var(--transition-base);
+            
+            @media (min-width: 768px) {
+                .nav-item:hover &,
+                .nav-item:focus-within & {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateY(0);
+                }
+            }
+            
+            @media (max-width: 767px) {
+                position: static;
+                box-shadow: none;
+                padding: 0 var(--space-md);
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height var(--transition-slow);
+                
+                .nav-item.active & {
+                    max-height: 500px;
+                    padding: var(--space-md);
+                }
+            }
+        }
+
+        .mega-menu-grid {
+            display: grid;
+            gap: var(--space-lg);
+            
+            @media (min-width: 768px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .mega-menu-section {
+            h4 {
+                color: var(--primary);
+                font-size: 0.875rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-bottom: var(--space-sm);
+            }
+            
+            ul {
+                list-style: none;
+            }
+            
+            a {
+                display: block;
+                padding: var(--space-xs) 0;
+                color: var(--dark-gray);
+                text-decoration: none;
+                transition: color var(--transition-fast);
+                
+                &:hover, &:focus {
+                    color: var(--primary);
+                }
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-pale), var(--pale-blue));
+            padding: var(--space-3xl) 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(151, 202, 65, 0.1) 0%, transparent 70%);
+                animation: float 20s ease-in-out infinite;
+            }
+            
+            @keyframes float {
+                0%, 100% { transform: translate(0, 0) rotate(0deg); }
+                50% { transform: translate(-30px, -30px) rotate(180deg); }
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            margin-bottom: var(--space-lg);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: var(--space-xl);
+            opacity: 0.9;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Dashboard (Logged-in Users) */
+        .dashboard {
+            display: none;
+            padding: var(--space-2xl) 0;
+            
+            &.active {
+                display: block;
+            }
+        }
+
+        .dashboard-header {
+            margin-bottom: var(--space-2xl);
+            
+            h1 {
+                color: var(--primary);
+            }
+        }
+
+        .dashboard-grid {
+            display: grid;
+            gap: var(--space-lg);
+            
+            @media (min-width: 768px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            @media (min-width: 1024px) {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            
+            &:hover {
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-2px);
+            }
+            
+            h3 {
+                color: var(--primary);
+                font-size: 1.125rem;
+                margin-bottom: var(--space-md);
+            }
+            
+            .card-content {
+                color: var(--dark-gray);
+            }
+            
+            .card-list {
+                list-style: none;
+                
+                li {
+                    padding: var(--space-sm) 0;
+                    border-bottom: 1px solid rgba(0,0,0,0.05);
+                    
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+
+        /* Content Sections */
+        .section {
+            padding: var(--space-3xl) 0;
+        }
+
+        .section-alt {
+            background: var(--pale-blue);
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            gap: var(--space-xl);
+            margin-top: var(--space-2xl);
+            
+            @media (min-width: 768px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            @media (min-width: 1024px) {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: var(--space-lg);
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-base);
+            
+            &:hover {
+                box-shadow: var(--shadow-md);
+                transform: translateY(-4px);
+            }
+            
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                margin: 0 auto var(--space-md);
+                background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--white);
+                font-size: 1.5rem;
+            }
+            
+            h3 {
+                font-size: 1.125rem;
+                margin-bottom: var(--space-sm);
+            }
+            
+            p {
+                color: rgba(51, 51, 51, 0.8);
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: var(--white);
+            padding: var(--space-2xl) 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            gap: var(--space-xl);
+            
+            @media (min-width: 768px) {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .footer-section {
+            h4 {
+                color: var(--primary);
+                margin-bottom: var(--space-md);
+            }
+            
+            ul {
+                list-style: none;
+            }
+            
+            a {
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+                display: block;
+                padding: var(--space-xs) 0;
+                transition: color var(--transition-fast);
+                
+                &:hover, &:focus {
+                    color: var(--primary);
+                }
+            }
+        }
+
+        .footer-bottom {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Utility Classes */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Focus Styles */
+        *:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        *:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* PWA Install Prompt */
+        .pwa-install-prompt {
+            position: fixed;
+            bottom: var(--space-lg);
+            right: var(--space-lg);
+            background: var(--white);
+            padding: var(--space-md);
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            max-width: 300px;
+            z-index: 1000;
+            transform: translateY(150%);
+            transition: transform var(--transition-slow);
+            
+            &.show {
+                transform: translateY(0);
+            }
+            
+            .prompt-content {
+                margin-bottom: var(--space-md);
+            }
+            
+            .prompt-actions {
+                display: flex;
+                gap: var(--space-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main" class="skip-to-content">Skip to main content</a>
+
+    <!-- Header -->
+    <header role="banner">
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">
+                    <span class="logo-icon">VR</span>
+                    <span>Valley Ridge Life</span>
+                </a>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <!-- Navigation -->
+                <nav id="main-nav" role="navigation" aria-label="Main navigation">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">Home</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" aria-expanded="false" aria-haspopup="true">
+                                I'm New
+                                <span class="nav-arrow">▼</span>
+                            </a>
+                            <div class="mega-menu" role="menu">
+                                <div class="mega-menu-grid">
+                                    <div class="mega-menu-section">
+                                        <h4>Get Started</h4>
+                                        <ul>
+                                            <li><a href="#" role="menuitem">Plan Your Visit</a></li>
+                                            <li><a href="#" role="menuitem">What to Expect</a></li>
+                                            <li><a href="#" role="menuitem">Service Times</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-menu-section">
+                                        <h4>About Us</h4>
+                                        <ul>
+                                            <li><a href="#" role="menuitem">Our Story</a></li>
+                                            <li><a href="#" role="menuitem">Our Beliefs</a></li>
+                                            <li><a href="#" role="menuitem">Meet Our Team</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" aria-expanded="false" aria-haspopup="true">
+                                Next Steps
+                                <span class="nav-arrow">▼</span>
+                            </a>
+                            <div class="mega-menu" role="menu">
+                                <div class="mega-menu-grid">
+                                    <div class="mega-menu-section">
+                                        <h4>Grow</h4>
+                                        <ul>
+                                            <li><a href="#" role="menuitem">Growth Track</a></li>
+                                            <li><a href="#" role="menuitem">Baptism</a></li>
+                                            <li><a href="#" role="menuitem">Small Groups</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-menu-section">
+                                        <h4>Serve</h4>
+                                        <ul>
+                                            <li><a href="#" role="menuitem">Volunteer</a></li>
+                                            <li><a href="#" role="menuitem">Ministry Teams</a></li>
+                                            <li><a href="#" role="menuitem">Outreach</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" aria-expanded="false" aria-haspopup="true">
+                                Watch
+                                <span class="nav-arrow">▼</span>
+                            </a>
+                            <div class="mega-menu" role="menu">
+                                <div class="mega-menu-grid">
+                                    <div class="mega-menu-section">
+                                        <h4>Services</h4>
+                                        <ul>
+                                            <li><a href="#" role="menuitem">Live Stream</a></li>
+                                            <li><a href="#" role="menuitem">Past Messages</a></li>
+                                            <li><a href="#" role="menuitem">Series Archive</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-menu-section">
+                                        <h4>Resources</h4>
+                                        <ul>
+                                            <li><a href="#" role="menuitem">Podcast</a></li>
+                                            <li><a href="#" role="menuitem">Reading Plans</a></li>
+                                            <li><a href="#" role="menuitem">Discussion Guides</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Give</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main" role="main">
+        <!-- Hero Section (Public) -->
+        <section class="hero" id="public-hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Welcome Home</h1>
+                    <p class="hero-subtitle">Experience community, grow in faith, and make a difference</p>
+                    <div class="hero-actions">
+                        <a href="#" class="btn btn-primary">Plan Your Visit</a>
+                        <a href="#" class="btn btn-secondary">Watch Online</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard (Logged-in Users) -->
+        <section class="dashboard" id="user-dashboard">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Welcome back, <span id="user-name">Friend</span>!</h1>
+                    <p>Here's what's happening in your VRL community</p>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>📅 Your Upcoming Events</h3>
+                        <div class="card-content">
+                            <ul class="card-list">
+                                <li>Small Group - Wednesday 7PM</li>
+                                <li>Volunteer Team Meeting - Saturday 9AM</li>
+                                <li>Growth Track Session 2 - Sunday 11AM</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>🎯 Your Ministries</h3>
+                        <div class="card-content">
+                            <ul class="card-list">
+                                <li>Kids Ministry Team</li>
+                                <li>Thursday Night Small Group</li>
+                                <li>Worship Arts</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>💚 Giving Summary</h3>
+                        <div class="card-content">
+                            <p>Year-to-date: $2,400</p>
+                            <p>Last gift: $200 on Jan 15</p>
+                            <a href="#" class="btn btn-primary" style="margin-top: 1rem;">Give Now</a>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>📚 Recommended Next Steps</h3>
+                        <div class="card-content">
+                            <ul class="card-list">
+                                <li>Complete Growth Track</li>
+                                <li>Join a Small Group</li>
+                                <li>Schedule Baptism</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>📺 Continue Watching</h3>
+                        <div class="card-content">
+                            <p><strong>Finding Peace Series</strong></p>
+                            <p>Part 3 of 5 - 12 min remaining</p>
+                            <a href="#">Resume Watching →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>📢 Announcements</h3>
+                        <div class="card-content">
+                            <ul class="card-list">
+                                <li>Easter Services - April 9</li>
+                                <li>Family Fun Day - March 25</li>
+                                <li>New Message Series Starting</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section">
+            <div class="container">
+                <h2 style="text-align: center;">Find Your Place</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">👋</div>
+                        <h3>First Time?</h3>
+                        <p>We'd love to meet you! Learn what to expect on your first visit.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h3>Small Groups</h3>
+                        <p>Connect with others in a smaller setting throughout the week.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👶</div>
+                        <h3>Kids & Youth</h3>
+                        <p>Age-appropriate programs to help kids grow in their faith.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3>Serve</h3>
+                        <p>Use your gifts to make a difference in our church and community.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section section-alt">
+            <div class="container" style="text-align: center;">
+                <h2>Ready to Take Your Next Step?</h2>
+                <p style="font-size: 1.125rem; margin-bottom: 2rem;">Whether you're exploring faith or looking to grow deeper, we're here to help you on your journey.</p>
+                <a href="#" class="btn btn-primary">Start Growth Track</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Prayer Requests</a></li>
+                        <li><a href="#">Locations</a></li>
+                        <li><a href="#">Service Times</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Messages</a></li>
+                        <li><a href="#">Bible App</a></li>
+                        <li><a href="#">Right Now Media</a></li>
+                        <li><a href="#">Store</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Get Involved</h4>
+                    <ul>
+                        <li><a href="#">Volunteer</a></li>
+                        <li><a href="#">Small Groups</a></li>
+                        <li><a href="#">Events</a></li>
+                        <li><a href="#">Missions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Valley Ridge Life. All rights reserved. | <a href="#" style="color: inherit;">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PWA Install Prompt -->
+    <div class="pwa-install-prompt" id="pwa-prompt">
+        <div class="prompt-content">
+            <strong>Install VRL App</strong>
+            <p>Add to your home screen for quick access!</p>
+        </div>
+        <div class="prompt-actions">
+            <button class="btn btn-secondary" onclick="dismissPWAPrompt()">Not Now</button>
+            <button class="btn btn-primary" onclick="installPWA()">Install</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Navigation Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const nav = document.querySelector('nav');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        mobileMenuToggle?.addEventListener('click', () => {
+            const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
+            mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
+            nav.classList.toggle('active');
+        });
+
+        // Mobile Accordion Navigation
+        navItems.forEach(item => {
+            const link = item.querySelector('.nav-link');
+            const hasSubmenu = item.querySelector('.mega-menu');
+            
+            if (hasSubmenu && window.innerWidth <= 767) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    item.classList.toggle('active');
+                    const isExpanded = link.getAttribute('aria-expanded') === 'true';
+                    link.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+        });
+
+        // Keyboard Navigation Support
+        document.addEventListener('keydown', (e) => {
+            // ESC key closes mega menu
+            if (e.key === 'Escape') {
+                const activeMenus = document.querySelectorAll('.nav-item:hover, .nav-item:focus-within');
+                activeMenus.forEach(menu => {
+                    menu.querySelector('.nav-link')?.blur();
+                });
+            }
+        });
+
+        // Focus Trap for Mega Menu (Desktop)
+        if (window.innerWidth >= 768) {
+            navItems.forEach(item => {
+                const megaMenu = item.querySelector('.mega-menu');
+                if (megaMenu) {
+                    const focusableElements = megaMenu.querySelectorAll('a, button');
+                    const firstFocusable = focusableElements[0];
+                    const lastFocusable = focusableElements[focusableElements.length - 1];
+                    
+                    megaMenu.addEventListener('keydown', (e) => {
+                        if (e.key === 'Tab') {
+                            if (e.shiftKey && document.activeElement === firstFocusable) {
+                                e.preventDefault();
+                                lastFocusable.focus();
+                            } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+                                e.preventDefault();
+                                firstFocusable.focus();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // Simulate User Authentication Check
+        const isLoggedIn = localStorage.getItem('vrl_user_authenticated') === 'true';
+        const userName = localStorage.getItem('vrl_user_name') || 'Friend';
+
+        if (isLoggedIn) {
+            // Show dashboard, hide public hero
+            document.getElementById('public-hero').style.display = 'none';
+            document.getElementById('user-dashboard').classList.add('active');
+            document.getElementById('user-name').textContent = userName;
+        }
+
+        // Demo: Toggle login state
+        function toggleLogin() {
+            const currentState = localStorage.getItem('vrl_user_authenticated') === 'true';
+            if (!currentState) {
+                const name = prompt('Enter your first name:') || 'Friend';
+                localStorage.setItem('vrl_user_authenticated', 'true');
+                localStorage.setItem('vrl_user_name', name);
+            } else {
+                localStorage.removeItem('vrl_user_authenticated');
+                localStorage.removeItem('vrl_user_name');
+            }
+            location.reload();
+        }
+
+        // PWA Installation
+        let deferredPrompt;
+        const pwaPrompt = document.getElementById('pwa-prompt');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // Show install prompt after 30 seconds
+            setTimeout(() => {
+                pwaPrompt?.classList.add('show');
+            }, 30000);
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                    pwaPrompt?.classList.remove('show');
+                });
+            }
+        }
+
+        function dismissPWAPrompt() {
+            pwaPrompt?.classList.remove('show');
+            // Don't show again for 7 days
+            localStorage.setItem('pwa_prompt_dismissed', Date.now());
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => console.log('SW registered:', registration))
+                    .catch(error => console.log('SW registration failed:', error));
+            });
+        }
+
+        // Responsive Resize Handler
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                // Reset mobile menu on resize to desktop
+                if (window.innerWidth >= 768) {
+                    nav?.classList.remove('active');
+                    mobileMenuToggle?.setAttribute('aria-expanded', 'false');
+                    navItems.forEach(item => item.classList.remove('active'));
+                }
+            }, 250);
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Add Login Toggle Button (for demo)
+        const loginToggle = document.createElement('button');
+        loginToggle.textContent = isLoggedIn ? 'Logout' : 'Login (Demo)';
+        loginToggle.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1000;
+            font-family: inherit;
+        `;
+        loginToggle.onclick = toggleLogin;
+        document.body.appendChild(loginToggle);
+    </script>
+
+    <!-- Manifest.json Content (inline for demo) -->
+    <script type="application/json" id="manifest-data">
+    {
+        "name": "Valley Ridge Life",
+        "short_name": "VRL",
+        "description": "Valley Ridge Life Church - Experience community, grow in faith",
+        "start_url": "/",
+        "display": "standalone",
+        "background_color": "#ffffff",
+        "theme_color": "#97CA41",
+        "orientation": "portrait-primary",
+        "icons": [
+            {
+                "src": "/icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png",
+                "purpose": "any maskable"
+            },
+            {
+                "src": "/icon-512.png",
+                "sizes": "512x512",
+                "type": "image/png",
+                "purpose": "any maskable"
+            }
+        ],
+        "categories": ["lifestyle", "education"],
+        "lang": "en-US"
+    }
+    </script>
+
+    <!-- Service Worker Content (inline for demo) -->
+    <script type="text/javascript" id="service-worker-code">
+    // This would be in a separate service-worker.js file
+    const CACHE_NAME = 'vrl-cache-v1';
+    const urlsToCache = [
+        '/',
+        '/assets/css/main.css',
+        '/assets/js/main.js',
+        '/assets/img/logo.png'
+    ];
+
+    // Install event - cache shell resources
+    self.addEventListener('install', event => {
+        event.waitUntil(
+            caches.open(CACHE_NAME)
+                .then(cache => cache.addAll(urlsToCache))
+        );
+    });
+
+    // Fetch event - serve from cache when available
+    self.addEventListener('fetch', event => {
+        event.respondWith(
+            caches.match(event.request)
+                .then(response => response || fetch(event.request))
+        );
+    });
+    </script>
+</body>
+</html>
