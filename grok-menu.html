@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VRL Church</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: hsl(88, 54%, 52%);
+      --secondary-dark-gray: rgb(51, 51, 51);
+      --secondary-black: rgb(0, 0, 0);
+      --secondary-light-pale-blue: hsl(200, 50%, 90%);
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+      color: var(--secondary-dark-gray);
+    }
+
+    /* Navigation */
+    .navbar {
+      background: var(--secondary-dark-gray);
+      color: white;
+      padding: 15px 0;
+    }
+
+    .navbar-logo img {
+      height: 40px;
+    }
+
+    .mega-menu {
+      position: absolute;
+      width: 100%;
+      background: var(--secondary-dark-gray);
+      padding: 20px;
+      display: none;
+    }
+
+    .mega-menu.active {
+      display: block;
+    }
+
+    .nav-item:hover .mega-menu,
+    .nav-item:focus-within .mega-menu {
+      display: block;
+    }
+
+    .nav-item a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .nav-item a:hover {
+      color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .mega-menu {
+        display: none;
+      }
+
+      .mega-menu.active {
+        display: block;
+        position: static;
+      }
+
+      .nav-item .mega-menu {
+        padding: 10px;
+      }
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 80vh;
+      overflow: hidden;
+    }
+
+    .hero video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .hero .btn {
+      background: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .hero-transition {
+      height: 50px;
+      background: linear-gradient(to bottom, transparent, var(--secondary-dark-gray));
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero .btn {
+        display: block;
+        width: 80%;
+        margin: 10px auto;
+      }
+    }
+
+    /* This Week's Message */
+    .sermon-section {
+      padding: 50px 0;
+      background: var(--secondary-light-pale-blue);
+    }
+
+    .sermon-section .row {
+      display: flex;
+      align-items: center;
+    }
+
+    .sermon-section iframe {
+      width: 100%;
+      height: 300px;
+    }
+
+    .sermon-section .sermon-info {
+      padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .sermon-section .row {
+        flex-direction: column;
+      }
+
+      .sermon-section iframe {
+        height: 200px;
+      }
+    }
+
+    /* Find Your Group */
+    .group-section {
+      position: relative;
+      padding: 50px 0;
+      background: url('https://via.placeholder.com/1200x600?text=Group+Meeting') no-repeat center/cover;
+    }
+
+    .group-card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin-left: auto;
+    }
+
+    .group-card h2 {
+      font-weight: 600;
+      color: var(--secondary-dark-gray);
+    }
+
+    .group-card .btn {
+      background: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .group-card {
+        margin: 0 auto;
+        text-align: center;
+      }
+    }
+
+    /* VRL Means Family */
+    .family-section {
+      padding: 50px 0;
+    }
+
+    .family-section h2 {
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    /* Featured Events */
+    .events-section {
+      padding: 50px 0;
+      background: var(--secondary-light-pale-blue);
+    }
+
+    .events-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding-bottom: 20px;
+    }
+
+    .event-card {
+      flex: 0 0 300px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .event-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .event-card .event-info {
+      padding: 15px;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--secondary-black);
+      color: white;
+      padding: 50px 0;
+    }
+
+    .footer a {
+      color: var(--secondary-light-pale-blue);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .footer .col-sm-4 {
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="navbar-logo">
+        <img src="https://via.placeholder.com/150x40?text=VRL+Logo" alt="VRL Church Logo">
+      </div>
+      <ul class="nav-items">
+        <li class="nav-item">
+          <a href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#">I'm New</a>
+          <div class="mega-menu">
+            <a href="#">Start Here</a>
+            <a href="#">Weekend Experience</a>
+            <a href="#">Location</a>
+            <a href="#">Our DNA</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#">Next Steps</a>
+          <div class="mega-menu">
+            <a href="#">DNA Class</a>
+            <a href="#">Find a Group</a>
+            <a href="#">Volunteer</a>
+            <a href="#">Events</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#">Media & Resources</a>
+          <div class="mega-menu">
+            <a href="#">Message Archive</a>
+            <a href="#">Resources</a>
+            <a href="#">Watch Live</a>
+            <a href="#">YouTube Channel</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#">Give</a>
+          <div class="mega-menu">
+            <a href="#">Give Now</a>
+            <a href="#">Generosity Philosophy</a>
+            <a href="https://unfinished.international">Unfinished</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#">My Account</a>
+          <div class="mega-menu">
+            <a href="#">Family Profile</a>
+            <a href="#">Group Toolbox</a>
+            <a href="#">Giving Profile</a>
+            <a href="#">Generosity Progress</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#">Ministries</a>
+          <div class="mega-menu">
+            <a href="#">Care</a>
+            <a href="#">Outreach</a>
+            <a href="#">Next Gen</a>
+            <a href="#">Groups</a>
+            <a href="#">Recovery</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" aria-label="Church community video">
+    <video autoplay loop muted playsinline>
+      <source src="https://player.vimeo.com/video/1080636995" type="video/mp4">
+    </video>
+    <div class="hero-overlay">
+      <h1>Reaching the world for Jesus, one person at a time.</h1>
+      <a href="#" class="btn">New to VRL</a>
+      <a href="#" class="btn">Your Next Step</a>
+    </div>
+  </section>
+  <div class="hero-transition"></div>
+
+  <!-- This Week's Message -->
+  <section class="sermon-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <iframe src="https://www.youtube.com/embed/sample" title="This Week's Sermon"></iframe>
+        </div>
+        <div class="col-md-6 sermon-info">
+          <h2>This Week's Message</h2>
+          <p>Join us as we explore the teachings of Jesus through this week's sermon, "Living with Purpose."</p>
+          <a href="#" class="btn">Watch More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Find Your Group -->
+  <section class="group-section">
+    <div class="container">
+      <div class="group-card">
+        <h2>Find Your Group</h2>
+        <p>At VRL, we believe in building authentic community through Life Groups where you can grow, connect, and serve together.</p>
+        <a href="#" class="btn">Join a Life Group</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VRL Means Family -->
+  <section class="family-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Kid's Ministry</h2>
+          <p>Our Kid's Ministry provides a fun, safe environment for children to learn about Jesus through engaging activities and lessons.</p>
+        </div>
+        <div class="col-md-6">
+          <h2>Student Ministry</h2>
+          <p>Our Student Ministry empowers teens to grow in faith, build strong relationships, and make a difference in their communities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Events -->
+  <section class="events-section">
+    <div class="container">
+      <h2>Featured Events</h2>
+      <div class="events-container">
+        <div class="event-card">
+          <img src="https://via.placeholder.com/300x150?text=Event+1" alt="Event 1">
+          <div class="event-info">
+            <h3>Community Outreach</h3>
+            <p>Join us for a day of serving our local community. August 15, 2025.</p>
+          </div>
+        </div>
+        <div class="event-card">
+          <img src="https://via.placeholder.com/300x150?text=Event+2" alt="Event 2">
+          <div class="event-info">
+            <h3>Worship Night</h3>
+            <p>Experience an evening of worship and prayer. August 20, 2025.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" role="navigation" aria-label="Footer navigation">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <h3>Social</h3>
+          <a href="#">Facebook</a><br>
+          <a href="#">Instagram</a><br>
+          <a href="#">YouTube</a>
+        </div>
+        <div class="col-sm-4">
+          <h3>Navigation</h3>
+          <a href="#">Home</a><br>
+          <a href="#">I'm New</a><br>
+          <a href="#">Next Steps</a><br>
+          <a href="#">Ministries</a>
+        </div>
+        <div class="col-sm-4">
+          <h3>Contact</h3>
+          <p>123 VRL Lane, City, ST 12345</p>
+          <p>(123) 456-7890</p>
+          <p><a href="mailto:info@vrl.church">info@vrl.church</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Basic mega menu toggle for mobile
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          const menu = item.querySelector('.mega-menu');
+          menu.classList.toggle('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

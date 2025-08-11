@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Scrollable Liquid Glass Button Demo</title>
+<style>
+  :root { --brand: #97CA41; }
+
+  /* Page background */
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial;
+    background-image:url('https://picsum.photos/1280/1800'); /* taller image */
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    min-height:200vh; /* force scroll */
+  }
+
+  /* Fixed-position button */
+  .btn-glass{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:14px 28px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.38);
+    color:#0e140a; font-weight:650; letter-spacing:.2px;
+    cursor:pointer;
+    background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.55),
+      inset 0 -1px 0 rgba(0,0,0,.06),
+      0 12px 28px rgba(0,0,0,.35);
+    transition: box-shadow .45s ease, border-color .45s ease;
+    -webkit-tap-highlight-color: transparent;
+    overflow:hidden;
+  }
+
+  /* Glass layer with SVG filter */
+  .btn-glass::before{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:inherit;
+    background: inherit;
+    background-attachment: fixed;
+    filter: url(#frosted);
+    opacity:.95;
+    pointer-events:none;
+  }
+
+  /* Gloss layer */
+  .btn-glass .gloss{
+    position:absolute; inset:1px 1px auto 1px; height:55%;
+    border-radius:inherit;
+    background:
+      radial-gradient(120% 70% at 50% -20%, rgba(255,255,255,.35), rgba(255,255,255,0) 60%),
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0));
+    mix-blend-mode: screen;
+    pointer-events:none;
+  }
+
+  /* Tint overlay (overlay fade) */
+  .btn-glass::after{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:inherit;
+    background: linear-gradient(180deg, rgba(151,202,65,.14), rgba(151,202,65,.10));
+    opacity:0;
+    transition: opacity .45s ease;
+    pointer-events:none;
+  }
+
+  /* Hover state */
+  .btn-glass:hover{
+    border-color: rgba(151,202,65,.38);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.55),
+      inset 0 -1px 0 rgba(0,0,0,.06),
+      0 14px 34px rgba(151,202,65,.22);
+  }
+  .btn-glass:hover::after{ opacity:1 }
+
+  /* Focus ring */
+  .btn-glass:focus-visible{
+    outline:0;
+    box-shadow: 0 0 0 3px rgba(151,202,65,.45), 0 12px 30px rgba(0,0,0,.35);
+  }
+</style>
+</head>
+<body>
+
+<button class="btn-glass">
+  Plan Your Visit
+  <span class="gloss"></span>
+</button>
+
+<!-- SVG filter for frosted glass -->
+<svg width="0" height="0" style="position:absolute">
+  <filter id="frosted" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+    <feColorMatrix type="matrix"
+      values="
+        1.05 0    0    0   0
+        0    1.05 0    0   0
+        0    0    1.05 0   0
+        0    0    0    .9  0" result="col"/>
+    <feComponentTransfer>
+      <feFuncR type="gamma" amplitude="1" exponent="1.05" offset="0"/>
+      <feFuncG type="gamma" amplitude="1" exponent="1.05" offset="0"/>
+      <feFuncB type="gamma" amplitude="1" exponent="1.05" offset="0"/>
+      <feFuncA type="gamma" amplitude="1" exponent="1.00" offset="0"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+
+</body>
+</html>

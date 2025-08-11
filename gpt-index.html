@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VRL — Homepage Mockup</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Colors */
+      --brand: hsl(88, 54%, 52%);           /* #97CA41 */
+      --ink: rgb(20, 20, 20);
+      --ink-2: rgb(51, 51, 51);
+      --bg: #ffffff;
+      --pale-blue: 210 80% 92%;             /* HSL (no hsl() wrapper for reuse) */
+      --surface: 0 0% 100% / 0.7;           /* hsl alpha for glass */
+
+      /* Type scale */
+      --step--1: clamp(0.875rem, 0.85rem + 0.1vw, 0.95rem);
+      --step-0:  clamp(1rem, 0.95rem + 0.2vw, 1.1rem);
+      --step-1:  clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --step-2:  clamp(1.6rem, 1.2rem + 1.2vw, 2.1rem);
+      --step-3:  clamp(2.1rem, 1.5rem + 2vw, 2.8rem);
+      --step-4:  clamp(2.6rem, 1.9rem + 3vw, 3.6rem);
+
+      /* Layout */
+      --content-max: 1200px;
+      --pad: clamp(16px, 1.5vw, 24px);
+      --radius: 16px;
+      --shadow: 0 6px 20px rgba(0,0,0,.08);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--ink);
+      line-height: 1.6;
+      background: var(--bg);
+    }
+    .container { width: min(var(--content-max), 100% - 2*var(--pad)); margin-inline: auto; }
+
+    /* Header / Navigation (mega) */
+    header.site-header {
+      position: sticky; top: 0; z-index: 1000;
+      background: transparent;
+      transition: background-color .25s ease, box-shadow .25s ease;
+      backdrop-filter: none;
+    }
+    header.site-header.scrolled {
+      background: hsl(var(--surface));
+      backdrop-filter: saturate(140%) blur(12px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    }
+    .nav-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem var(--pad); }
+    .brand { display:flex; align-items:center; gap:.5rem; font-weight:700; letter-spacing:.3px; text-decoration:none; color: var(--ink); }
+    .brand .logo { inline-size: 38px; block-size: 38px; border-radius: 8px; background: var(--brand); display:inline-block; }
+
+    nav[aria-label="Primary"] { display:flex; align-items:center; gap: .25rem; }
+    .nav-list { list-style:none; display:flex; gap:.5rem; margin:0; padding:0; }
+    .nav-list > li { position: relative; }
+    .nav-link { appearance:none; background:transparent; border:0; font: inherit; padding:.6rem .9rem; border-radius: 12px; cursor:pointer; color: var(--ink); }
+    .nav-link:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+    /* Mega panel */
+    .mega { position: absolute; left: 50%; transform: translateX(-50%); top: calc(100% + 8px); inline-size: 100vw; background: hsl(var(--surface)); backdrop-filter: blur(16px); border-radius: 20px; box-shadow: var(--shadow); display: none; padding: 24px; }
+    .nav-list > li:focus-within .mega,
+    .nav-list > li:hover .mega { display: block; }
+    .mega .cols { display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 24px; }
+    .mega a { color: var(--ink); text-decoration: none; }
+    .mega h4 { margin: 0 0 8px; font-size: var(--step-0); text-transform: uppercase; letter-spacing: .06em; opacity:.8; }
+    .mega ul { list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+    .mega li a { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-radius: 12px; }
+    .mega li a:hover { background: hsl(var(--pale-blue)); }
+
+    /* Mobile nav */
+    .nav-toggle { display:none; }
+    @media (max-width: 960px) {
+      .nav-toggle { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .75rem; border:1px solid rgba(0,0,0,.08); border-radius: 12px; }
+      nav[aria-label="Primary"] { display:none; }
+      header.site-header.open nav[aria-label="Primary"] { display:block; position: fixed; inset: 64px var(--pad) auto var(--pad); background: hsl(var(--surface)); backdrop-filter: blur(16px); border-radius: 20px; padding: 16px; }
+      .nav-list { flex-direction: column; }
+      .mega { position: static; transform: none; inline-size: 100%; display:block; padding: 8px 0 0; background: transparent; box-shadow: none; }
+      .mega .cols { grid-template-columns: 1fr; }
+    }
+
+    /* Hero */
+    .hero { position: relative; isolation: isolate; }
+    .hero-media { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
+    .hero-media iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    .hero-overlay { position:absolute; inset: 0; display:grid; place-items:center; padding: min(8vw, 96px); }
+    .hero-content { text-align:center; color: white; text-shadow: 0 2px 20px rgba(0,0,0,.4); }
+    .hero h1 { font-size: var(--step-4); line-height: 1.1; margin: 0 0 16px; }
+    .actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding:.8rem 1.1rem; border-radius: 999px; text-decoration:none; font-weight:600; border: 2px solid transparent; }
+    .btn-primary { background: var(--brand); color: #102b00; }
+    .btn-primary:focus-visible { outline: 3px solid white; outline-offset: 2px; }
+
+    /* Sections */
+    section { padding: 56px 0; }
+    .section-title { font-size: var(--step-2); margin: 0 0 16px; }
+    .kicker { text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); font-size: var(--step--1); opacity:.8; }
+
+    /* Sermon */
+    .card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: clip; }
+    .grid { display:grid; gap: 24px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    @media (max-width: 960px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+    .sermon { display:grid; gap:24px; }
+    .sermon .media { aspect-ratio: 16/9; background:#000; }
+    .sermon .media iframe { width:100%; height:100%; border:0; }
+    .sermon .meta { padding: 16px 20px; display:grid; gap:6px; }
+
+    /* Next Steps quick actions */
+    .cta-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    @media (max-width: 720px) { .cta-grid { grid-template-columns: 1fr; } }
+    .cta { border: 1px solid rgba(0,0,0,.08); background: linear-gradient(to bottom right, white, hsl(var(--pale-blue))); padding: 20px; border-radius: 16px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .cta a.btn { margin-left:auto; }
+
+    /* Events */
+    .event { display:grid; grid-template-rows: auto 1fr; }
+    .event .thumb { aspect-ratio: 16/9; background: #dfe8ff; }
+    .event .body { padding: 14px 16px 18px; display:grid; gap:6px; }
+    .pill { display:inline-block; padding: 4px 10px; border-radius: 999px; background: hsl(var(--pale-blue)); font-size: var(--step--1); }
+
+    /* Footer */
+    footer { background: #0f0f0f; color: #eee; padding: 48px 0; margin-top: 48px; }
+    footer a { color: #d6ffd6; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="nav-bar container">
+      <a class="brand" href="/">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Valley Real Life</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+      <nav aria-label="Primary" id="primaryNav">
+        <ul class="nav-list" role="menubar">
+          <li>
+            <button class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false">I'm New</button>
+            <div class="mega" role="region" aria-label="I'm New">
+              <div class="container">
+                <div class="cols">
+                  <div>
+                    <h4>Start Here</h4>
+                    <ul>
+                      <li><a href="/our-story">Our Story / DNA</a></li>
+                      <li><a href="/weekend">Weekend Experience</a></li>
+                      <li><a href="/beliefs">Beliefs</a></li>
+                      <li><a href="/locations">Location</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4>People</h4>
+                    <ul>
+                      <li><a href="/staff">Staff</a></li>
+                      <li><a href="/events">Events</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4>Milestones</h4>
+                    <ul>
+                      <li><a href="/baptism">Baptism</a></li>
+                      <li><a href="/groups">Groups</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4>Ministries</h4>
+                    <ul>
+                      <li><a href="/outreach">Outreach</a></li>
+                      <li><a href="/care">Care</a></li>
+                      <li><a href="/next-gen">Next Gen</a></li>
+                      <li><a href="/young-adults">Young Adults</a></li>
+                      <li><a href="/recovery">Recovery</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <button class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false">Next Steps</button>
+            <div class="mega" role="region" aria-label="Next Steps">
+              <div class="container">
+                <div class="cols">
+                  <div>
+                    <h4>Take Your Next Step</h4>
+                    <ul>
+                      <li><a href="/baptism">Baptism</a></li>
+                      <li><a href="/our-story">DNA</a></li>
+                      <li><a href="/groups">Groups</a></li>
+                      <li><a href="/give">Give</a></li>
+                      <li><a href="/volunteer">Volunteer</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4>Explore Ministries</h4>
+                    <ul>
+                      <li><a href="/outreach">Outreach</a></li>
+                      <li><a href="/care">Care</a></li>
+                      <li><a href="/next-gen">Next Gen</a></li>
+                      <li><a href="/young-adults">Young Adults</a></li>
+                      <li><a href="/recovery">Recovery</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4>Get Connected</h4>
+                    <ul>
+                      <li><a href="/events">Events</a></li>
+                      <li><a href="/locations">Location</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4>Support</h4>
+                    <ul>
+                      <li><a href="/care">Care & Prayer</a></li>
+                      <li><a href="/contact">Contact Us</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li><a class="nav-link" role="menuitem" href="/watch">Watch</a></li>
+          <li><a class="nav-link" role="menuitem" href="/give">Give</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" aria-label="Hero">
+      <div class="hero-media">
+        <iframe src="https://player.vimeo.com/video/1080636995?autopause=0&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;muted=1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
+      <div class="hero-overlay">
+        <div class="hero-content container">
+          <h1>Reaching the world for Jesus, one person at a time.</h1>
+          <div class="actions">
+            <a class="btn btn-primary" href="/im-new">I'm New</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Current Sermon -->
+    <section aria-labelledby="sermonTitle">
+      <div class="container sermon">
+        <div>
+          <p class="kicker">Watch</p>
+          <h2 id="sermonTitle" class="section-title">Most Recent Sermon</h2>
+        </div>
+        <div class="card">
+          <div class="media">
+            <!-- Replace with Rock content channel video embed or Vimeo ID bind -->
+            <iframe src="https://player.vimeo.com/video/123456789?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="meta">
+            <strong>Series Title — Message Title</strong>
+            <span>Speaker Name · Jul 27, 2025</span>
+            <div class="actions">
+              <a class="btn" href="/watch">All Sermons</a>
+              <a class="btn btn-primary" href="/watch/latest">Watch Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Next Steps: Groups & DNA -->
+    <section aria-labelledby="nextStepsTitle">
+      <div class="container">
+        <p class="kicker">Next Steps</p>
+        <h2 id="nextStepsTitle" class="section-title">Find a Group & Your Next DNA Class</h2>
+        <div class="cta-grid">
+          <div class="cta card">
+            <div>
+              <h3>Find a Group</h3>
+              <p>Life is better together. Explore groups by life stage, topic, or location.</p>
+            </div>
+            <a class="btn btn-primary" href="/groups">Browse Groups</a>
+          </div>
+          <div class="cta card">
+            <div>
+              <h3>Next DNA Class</h3>
+              <p>Learn our story and how to get connected. Classes offered regularly.</p>
+            </div>
+            <a class="btn btn-primary" href="/our-story">View Schedule</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Events -->
+    <section aria-labelledby="eventsTitle">
+      <div class="container">
+        <p class="kicker">Coming Up</p>
+        <h2 id="eventsTitle" class="section-title">Featured Events</h2>
+        <div class="grid grid-3">
+          <article class="event card">
+            <div class="thumb"></div>
+            <div class="body">
+              <span class="pill">Aug 24 • Main Campus</span>
+              <strong>Summer BBQ & Baptisms</strong>
+              <a class="btn" href="/events/1">Details</a>
+            </div>
+          </article>
+          <article class="event card">
+            <div class="thumb"></div>
+            <div class="body">
+              <span class="pill">Sep 7 • Student Center</span>
+              <strong>Next Gen Kickoff</strong>
+              <a class="btn" href="/events/2">Details</a>
+            </div>
+          </article>
+          <article class="event card">
+            <div class="thumb"></div>
+            <div class="body">
+              <span class="pill">Sep 14 • Auditorium</span>
+              <strong>DNA Class</strong>
+              <a class="btn" href="/events/3">Details</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container grid grid-3">
+      <div>
+        <strong>Valley Real Life</strong>
+        <p>Service Times · Address · Contact</p>
+        <p><a href="/locations">Get Directions</a></p>
+      </div>
+      <div>
+        <strong>Ministries</strong>
+        <ul>
+          <li><a href="/next-gen">Next Gen</a></li>
+          <li><a href="/young-adults">Young Adults</a></li>
+          <li><a href="/recovery">Recovery</a></li>
+          <li><a href="/care">Care</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Next Steps</strong>
+        <ul>
+          <li><a href="/baptism">Baptism</a></li>
+          <li><a href="/our-story">DNA</a></li>
+          <li><a href="/groups">Groups</a></li>
+          <li><a href="/volunteer">Volunteer</a></li>
+          <li><a href="/give">Give</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal JS: header glass on scroll + mobile toggle
+    const header = document.getElementById('siteHeader');
+    const navToggle = document.getElementById('navToggle');
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 4);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    navToggle.addEventListener('click', () => {
+      const open = header.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(open));
+    });
+  </script>
+</body>
+</html>
